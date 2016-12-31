@@ -6,9 +6,9 @@ var settings={
   protocolVersion: 3
 };
 
-var one= new test(host,settings);
-//Connect to mqtt server with above given credentials
-one.connect();
+var one= new test();
+//Connect to mqtt server with given credentials
+one.connect(host,settings);
 //Get mqtt client for advanced operations, Refer npm package mqtt for more information
 //However message event is handled by the package
 var mqtt=one.getMQTTClient();

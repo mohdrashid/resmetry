@@ -17,7 +17,7 @@
     "response"
   ],
   "author": "Mohammed Rashid",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "mqtt": "^2.1.3"
   },

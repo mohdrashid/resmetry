@@ -9,12 +9,11 @@ eventEmitter.setMaxListeners(0)
 var topicList=[];
 
 class resmetry{
-  constructor(host,settings,callback){
-    this.host=host;
-    this.settings=settings;
+  constructor(){
+
   }
-  connect(callback){
-    mqtt_client= mqtt.connect(this.host,this.settings);
+  connect(host,settings){
+    mqtt_client= mqtt.connect(host,settings);
     mqtt_client.on('message',function(topic,message){
       var index=topicList.indexOf(topic);
       if(index!=-1)
@@ -27,9 +26,6 @@ class resmetry{
   }
   getMQTTClient(){
     return mqtt_client;
-  }
-  getTopicList(){
-    return topicList;
   }
   request(topic,data,options,responseTopic,callback){
     mqtt_client.publish(topic,data,options,function(err){
