@@ -13,8 +13,6 @@ npm install resmetry --save
 <a name="example"></a>
 ## Example
 
-For the sake of simplicity, let's put the subscriber and the publisher in the same file:
-
 ```js
 var test=require('resmetry');
 var host='mqtt://localhost:1883';
