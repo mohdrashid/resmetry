@@ -1,0 +1,25 @@
+{
+  "name": "resmetry",
+  "version": "1.0.0",
+  "description": "A library supporting request-response operation over MQTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ".git"
+  },
+  "keywords": [
+    "MQTT",
+    "HTTP",
+    "request",
+    "response"
+  ],
+  "author": "Mohammed Rashid",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.1.3"
+  },
+  "devDependencies": {}
+}
