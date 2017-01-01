@@ -15,7 +15,7 @@ npm install resmetry --save
 
 ```js
 var resmetrylib=require('resmetry');
-var host='mqtt://localhost:1883';
+var host='mqtt://localhost';
 //Standard settings available in npm package mqtt
 var settings={
   protocolId: 'MQIsdp',
