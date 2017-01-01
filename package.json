@@ -1,6 +1,6 @@
 {
   "name": "resmetry",
-  "version": "1.0.4.1",
+  "version": "1.0.5",
   "description": "A library supporting request-response operation over MQTT",
   "main": "index.js",
   "scripts": {
