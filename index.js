@@ -10,8 +10,8 @@ var topicList=[];
 
 class resmetry{
   constructor(){
-
   }
+
   connect(host,settings){
     mqtt_client= mqtt.connect(host,settings);
     mqtt_client.on('message',function(topic,message){
@@ -24,9 +24,11 @@ class resmetry{
       }
     });
   }
+
   getMQTTClient(){
     return mqtt_client;
   }
+
   request(topic,data,options,responseTopic,callback){
     mqtt_client.publish(topic,data,options,function(err){
       if(err)
@@ -41,4 +43,5 @@ class resmetry{
     });
   }
 }
+
 module.exports=resmetry;
