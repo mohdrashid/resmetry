@@ -31,14 +31,20 @@ var mqtt=resmetry.getMQTTClient();
 resmetry.on('connect',function(message){
   console.log(message);
 });
+//MQTT operations
+mqtt.subscribe('request/1');
 //Message event listener
+var temp=25;
 resmetry.on('message',function(topic,message){
-  console.log(topic,message);
+  console.log("Topic: "+topic,"Message: "+message);
+  if(topic=='request/1'&&message=='temp'){
+    mqtt.publish('response/1',temp+'',{qos:2});
+  }
 });
 //Making a request to topic 'request' with message 'send me details' whose expected result goes to topic response with options
 var options={qos:2};
 //Options are standard options available for publishing in npm package mqtt
-resmetry.request('request','send me details',options,'response',function(err,response){
+resmetry.request('request/1','temp',options,'response/1',function(err,response){
   console.log('Response:'+response);
 });
 
@@ -47,8 +53,10 @@ resmetry.request('request','send me details',options,'response',function(err,res
 output:
 ```
 Connected
-Response:hi
-response hi
+Topic: request/1 Message: temp
+Topic: response/1 Message: 25
+Response:25
+
 ```
 
 

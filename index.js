@@ -19,11 +19,11 @@ class resmetry extends EventEmitter{
       currClass.emit('connect','Connected');
     });
     mqtt_client.on('message',function(topic,message){
+      currClass.emit('message',topic,message.toString());
       var index=topicList.indexOf(topic);
       if(index!=-1)
       {
         currClass.emit(topic,message.toString());
-        currClass.emit('message',topic,message.toString());
         mqtt_client.unsubscribe(topic);
         topicList.splice(index, 1);
       }
