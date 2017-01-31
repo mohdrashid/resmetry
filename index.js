@@ -2,23 +2,28 @@
 var mqtt=require('mqtt');
 var mqtt_client;
 //Events
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
-eventEmitter.setMaxListeners(0)
+var EventEmitter = require('events');
 //Where topics are stored
 var topicList=[];
 
-class resmetry{
+class resmetry extends EventEmitter{
   constructor(){
+    super();
+    this.setMaxListeners(0)
   }
 
   connect(host,settings){
+    var currClass=this;
     mqtt_client= mqtt.connect(host,settings);
+    mqtt_client.on('connect',function(){
+      currClass.emit('connect','Connected');
+    });
     mqtt_client.on('message',function(topic,message){
       var index=topicList.indexOf(topic);
       if(index!=-1)
       {
-        eventEmitter.emit(topic,message.toString());
+        currClass.emit(topic,message.toString());
+        currClass.emit('message',topic,message.toString());
         mqtt_client.unsubscribe(topic);
         topicList.splice(index, 1);
       }
@@ -29,14 +34,16 @@ class resmetry{
     return mqtt_client;
   }
 
+  //Request
   request(topic,data,options,responseTopic,callback){
+    var currClass=this;
     mqtt_client.publish(topic,data,options,function(err){
       if(err)
         callback('null');
       else{
         mqtt_client.subscribe(responseTopic);
         topicList.push(responseTopic);
-        eventEmitter.once(responseTopic, function(response){
+        currClass.once(responseTopic, function(response){
           callback('null',response);
         });
       }

@@ -9,11 +9,17 @@ var resmetry= new resmetrylib();
 //Connect to mqtt server with given credentials
 resmetry.connect(host,settings);
 //Get mqtt client for advanced operations, Refer npm package mqtt for more information
-//However message event is handled by the package
+//For other features offered by MQTT, the modifications can be made using the object
 var mqtt=resmetry.getMQTTClient();
-mqtt.on('connect',function(){
-  console.log('Connected');
-})
+//Connection listener
+resmetry.on('connect',function(message){
+  console.log(message);
+});
+//Message event listener
+resmetry.on('message',function(topic,message){
+  console.log(topic,message);
+});
+
 //Making a request to topic 'request' with message 'send me details' whose expected result goes to topic response with options
 var options={qos:2};
 //Options are standard options available for publishing in npm package mqtt

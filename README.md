@@ -25,11 +25,16 @@ var resmetry= new resmetrylib();
 //Connect to mqtt server with given credentials
 resmetry.connect(host,settings);
 //Get mqtt client for advanced operations, Refer npm package mqtt for more information
-//However message event is handled by the package
+//For other features offered by MQTT, the modifications can be made using the object
 var mqtt=resmetry.getMQTTClient();
-mqtt.on('connect',function(){
-  console.log('Connected');
-})
+//Connection listener
+resmetry.on('connect',function(message){
+  console.log(message);
+});
+//Message event listener
+resmetry.on('message',function(topic,message){
+  console.log(topic,message);
+});
 //Making a request to topic 'request' with message 'send me details' whose expected result goes to topic response with options
 var options={qos:2};
 //Options are standard options available for publishing in npm package mqtt
@@ -43,7 +48,7 @@ output:
 ```
 Connected
 Response:hi
-
+response hi
 ```
 
 
@@ -79,6 +84,27 @@ ted options. Options are as mentioned in connect part of npm package [mqtt.js](h
 Returns the mqtt client for the functionality of add your listeners other than <b>'message'</b> event.Refer [mqtt.js Events](https://www.npmjs.com/package/mqtt#connect) for information on events and other functionalities.
 
 -------------------------------------------------------
+<a name="events"></a>
+## Events
+
+  * <a href="#connect"><code>connect</code></a>
+  * <a href="#message"><code>message</code></a>
+  -------------------------------------------------------
+  <a name="connect"></a>
+  ### resmetry.on('connect',function(message))
+
+  * Fired when mqtt client connects to server
+  * 'message' is a string saying Connected
+
+  -------------------------------------------------------
+  <a name="message"></a>
+  ### resmetry.on('message',function(topic,message))
+
+  * Fired when a message comes
+  * 'topic' is the topic to which message was published
+  * 'message' contains the message send in the topic
+
+  -------------------------------------------------------
 <a name="license"></a>
 ## License
 
