@@ -21,32 +21,42 @@ var settings={
   protocolId: 'MQIsdp',
   protocolVersion: 3
 };
-var resmetry= new resmetrylib();
-//Connect to mqtt server with given credentials
-resmetry.connect(host,settings);
-//Get mqtt client for advanced operations, Refer npm package mqtt for more information
-//For other features offered by MQTT, the modifications can be made using the object
-var mqtt=resmetry.getMQTTClient();
+/**
+ * The last parameter should be true for an always active connection, false for a one time connection
+ * @type {resmetry}
+ */
+var resmetry= new resmetrylib(host,settings,false);
+
+/*
+* Get mqtt client for advanced operations, Refer npm package mqtt for more information
+* For other features offered by MQTT, the modifications can be made using the object
+* Only applicable true is passed the last parameter of the constructor
+*/
+//var mqtt=resmetry.getMQTTClient();
+//MQTT operations
+//mqtt.subscribe('request/1');
+
 //Connection listener
 resmetry.on('connect',function(message){
   console.log(message);
 });
-//MQTT operations
-mqtt.subscribe('request/1');
+
 //Message event listener
 var temp=25;
 resmetry.on('message',function(topic,message){
   console.log("Topic: "+topic,"Message: "+message);
-  if(topic=='request/1'&&message=='temp'){
+  if(topic==='request/1'&&message==='temp'){
     mqtt.publish('response/1',temp+'',{qos:2});
   }
 });
+
 //Making a request to topic 'request' with message 'send me details' whose expected result goes to topic response with options
 var options={qos:2};
 //Options are standard options available for publishing in npm package mqtt
 resmetry.request('request/1','temp',options,'response/1',function(err,response){
   console.log('Response:'+response);
 });
+
 
 ```
 
@@ -63,17 +73,20 @@ Response:25
 <a name="api"></a>
 ## API
 
-  * <a href="#connect"><code>resmetry.<b>connect()</b></code></a>
+  * <a href="#constructor"><code>new<b> resmetry()</b></code></a>
   * <a href="#request"><code>resmetry.<b>request()</b></code></a>
   * <a href="#getMQTTClient"><code>resmetry.<b>getMQTTClient()</b></code></a>
+  * <a href="#disconnect"><code>resmetry.<b>disconnect()</b></code></a>
 
 
 -------------------------------------------------------
-<a name="connect"></a>
-### resmetry.connect(url,options)
+<a name="constructor"></a>
+### new resmetry(host,settings,connectionType)
 
 Connects to the broker specified by the given url and options and
 ted options. Options are as mentioned in connect part of npm package [mqtt.js](https://www.npmjs.com/package/mqtt#connect)
+ConnectionType specifies whether current operation is one-time or continuous. One-time activated by passing false, makes the connection end after obtaining the response.
+Whereas, continuous operation mode activated by passing true, runs forever.
 
 -------------------------------------------------------
 <a name="request"></a>
@@ -90,6 +103,12 @@ ted options. Options are as mentioned in connect part of npm package [mqtt.js](h
 ### resmetry.getMQTTClient()
 
 Returns the mqtt client for the functionality of add your listeners other than <b>'message'</b> event.Refer [mqtt.js Events](https://www.npmjs.com/package/mqtt#connect) for information on events and other functionalities.
+
+-------------------------------------------------------
+<a name="disconnect"></a>
+### resmetry.disconnect()
+
+Disconnects the active MQTT client connection
 
 -------------------------------------------------------
 <a name="events"></a>
