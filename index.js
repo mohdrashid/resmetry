@@ -12,7 +12,6 @@ class resmetry extends EventEmitter{
      * @param connectionType: 1 or true for a continuous connection, 0 or false for one-time connection
      */
     constructor(host,settings,connectionType){
-        //noinspection JSAnnotator
         super();
         this.setMaxListeners(0);
         //Where topics are stored
