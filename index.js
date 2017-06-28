@@ -34,6 +34,9 @@ class resmetry extends EventEmitter{
         this.mqttClient.on('connect',function(){
             self.emit('connect','Connected');
         });
+        this.mqttClient.on('error',function(error){
+            self.emit('error',error);
+        });
         this.mqttClient.on('message',function(topic,message){
             self.emit('message',topic,message.toString());
             var index=self.topicList.indexOf(topic);
@@ -80,6 +83,10 @@ class resmetry extends EventEmitter{
         if(this.connectionType===false){
             this.connectClient();
         }
+        if(this.mqttClient===undefined)
+            throw "MQTT Client is undefined, please check the configurations";
+        if(this.mqttClient.connected===false)
+            throw "MQTT Client is not connected. Please check the parameters passed"
         this.mqttClient.publish(topic,data,options,function(err){
             if(err)
                 callback(err);

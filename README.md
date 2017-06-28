@@ -1,5 +1,6 @@
 Resmetry is a client library for the [MQTT](http://mqtt.org/) protocol, written
-in JavaScript for node.js with the aim of building request-response communication on top of mqtt protocol.
+in JavaScript for node.js with the aim of building request-response communication on top of mqtt protocol. 
+Resmetry supports both on request connection and always-on connection.
 
 This library relies on [MQTT.js library](https://www.npmjs.com/package/mqtt) for interacting with mqtt server.
 
@@ -116,6 +117,7 @@ Disconnects the active MQTT client connection
 
   * <a href="#connect"><code>connect</code></a>
   * <a href="#message"><code>message</code></a>
+  * <a href="#error"><code>error</code></a>
   -------------------------------------------------------
   <a name="connect"></a>
   ### resmetry.on('connect',function(message))
@@ -130,8 +132,15 @@ Disconnects the active MQTT client connection
   * Fired when a message comes
   * 'topic' is the topic to which message was published
   * 'message' contains the message send in the topic
-
+  
   -------------------------------------------------------
+  <a name="error"></a>
+  ### resmetry.on('error',function(error))
+
+  * Fired when error is encountered
+  * error contains details related to the error thrown
+
+-------------------------------------------------------
 <a name="license"></a>
 ## License
 
